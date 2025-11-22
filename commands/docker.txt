@@ -1,0 +1,5 @@
+# Docker Compose for running 
+docker compose --env-file .env up -d --build
+
+# Docker container build
+docker build -f src/ingestor/Dockerfile -t dakshsawhneyy/sentiment-analysis-ingestor:latest .
