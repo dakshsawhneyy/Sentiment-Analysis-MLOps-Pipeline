@@ -1,0 +1,32 @@
+version: '3'
+services:
+  minio:
+    image: minio/minio
+    container_name: minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"   # API Port
+      - "9001:9001"   # Console Port
+    volumes:
+      - minio_data:/data
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    networks:
+      - minio
+  ingestor:
+    image: dakshsawhneyy/sentiment-analysis-ingestor
+    container_name: ingestor
+    environment:
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - ./data/raw:/app/data/raw
+    networks:
+      - minio
+    
+volumes:
+  minio_data:
+networks:
+  minio:
