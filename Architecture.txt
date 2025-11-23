@@ -16,4 +16,14 @@ PHASE 1
 #####################
 PHASE 2
 #####################
-1. 
+1. write processor.py that takes raw json data from raw minIO bucket and converts it into processed data csv
+    -> after converting, it sends it to minio processed bucket
+
+3. Need to run minIO, ingestor and processor under same network, so they can talk to each other
+    -> wrote all containers info under docker-compose file
+
+------------------------------------------------------------------------------------------
+
+#####################
+PHASE 3
+#####################
