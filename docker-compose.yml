@@ -25,6 +25,15 @@ services:
       - ./data/raw:/app/data/raw
     networks:
       - minio
+  processor:
+    image: dakshsawhneyy/sentiment-analysis-processor:latest
+    container_name: processor
+    environment:
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    networks:
+      - minio
     
 volumes:
   minio_data:
