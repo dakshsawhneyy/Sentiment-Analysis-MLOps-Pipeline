@@ -2,3 +2,6 @@ minio
 python-dotenv
 uvicorn
 pandas
+joblib
+scikit-learn
+mlflow
