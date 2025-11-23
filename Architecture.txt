@@ -27,3 +27,13 @@ PHASE 2
 #####################
 PHASE 3
 #####################
+1. Install MLFlow and scikit-learn library
+2. create a new models bucket in minIO for storing models
+3. write train_baseline.py which trains the data based on data present in models bucket in minIO
+4. run trainer as well through docker-compose
+
+------------------------------------------------------------------------------------------
+
+#####################
+PHASE 4
+#####################

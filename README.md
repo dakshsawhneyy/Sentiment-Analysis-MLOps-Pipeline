@@ -1,1 +1,1 @@
-# Automated-Sentiment-Analysis-MLOps-Pipeline
+# Sentiment Analysis MLOps Pipeline
