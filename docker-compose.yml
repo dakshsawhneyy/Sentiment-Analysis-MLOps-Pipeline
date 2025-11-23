@@ -15,7 +15,7 @@ services:
     networks:
       - minio
   ingestor:
-    image: dakshsawhneyy/sentiment-analysis-ingestor
+    image: dakshsawhneyy/sentiment-analysis-ingestor:latest
     container_name: ingestor
     environment:
       MINIO_ENDPOINT: minio:9000
