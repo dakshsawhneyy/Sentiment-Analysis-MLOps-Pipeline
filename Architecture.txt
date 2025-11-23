@@ -1,0 +1,19 @@
+#####################
+PHASE 1
+#####################
+
+1. Run minIO in docker container
+    -> Created raw bucket inside minIO using console (http://127.0.0.1:9001)
+
+2. write ingestor.py that takes raw csv data and converts it into json
+    -> after converting, it sends it to minio raw bucket
+
+3. Need to run minIO and ingestor under same network, so they can talk to each other
+    -> wrote both containers info under docker-compose file
+
+------------------------------------------------------------------------------------------
+
+#####################
+PHASE 2
+#####################
+1. 
