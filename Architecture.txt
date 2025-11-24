@@ -37,3 +37,12 @@ PHASE 3
 #####################
 PHASE 4
 #####################
+1. write validator.py, what checks current model accuracy with new model and keeps better one in production
+2. it generates production artifacts in models bucket on minIO
+3. it also keeps old data model config as well, for instant rollback
+
+------------------------------------------------------------------------------------------
+
+#####################
+PHASE 5
+#####################
