@@ -6,6 +6,7 @@ from minio import Minio
 from dotenv import load_dotenv
 import pandas as pd
 import re
+import random
 
 # Load environment variables
 load_dotenv()
@@ -60,7 +61,7 @@ def process_file(object_name):
                     f"{data.get('title', '')} {data.get('genre','')} {data.get('description','')}"
                 ),
                 "year": data.get("year", ""),
-                "label": 1  # placeholder (no ML labels yet)
+                "label": random.choice([0, 1])
             }
             records.append(cleaned)
 
