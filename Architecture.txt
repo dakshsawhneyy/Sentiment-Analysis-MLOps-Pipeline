@@ -46,3 +46,12 @@ PHASE 4
 #####################
 PHASE 5
 #####################
+1. Now its time to serve our model, write serving.py inside serving folder
+2. Create its docker file as well 
+3. run serving service inside docker compose
+
+------------------------------------------------------------------------------------------
+
+#####################
+PHASE 6
+#####################

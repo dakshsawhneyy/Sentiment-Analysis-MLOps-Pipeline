@@ -96,8 +96,8 @@ if __name__ == "__main__":
     if new_f1 >= old_f1:
         print("[VALIDATOR] New model is better → marking as production!")
 
-        client.fput_object(MODEL_BUCKET, "production_model.joblib", new_model_path)
-        client.fput_object(MODEL_BUCKET, "production_vectorizer.joblib", new_vec_path)
+        client.fput_object("models", "production_model.joblib", new_model_path)
+        client.fput_object("models", "production_vectorizer.joblib", new_vec_path)
 
         print("[VALIDATOR] Uploaded new model as production version.")
     else:
