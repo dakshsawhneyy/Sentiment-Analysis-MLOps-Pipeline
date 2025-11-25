@@ -74,7 +74,23 @@ services:
     depends_on: [ minio ]
     networks:
       - minio
-    
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prom.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - minio
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - minio
+
 volumes:
   minio_data:
 networks:
