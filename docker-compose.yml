@@ -21,6 +21,7 @@ services:
       MINIO_ENDPOINT: minio:9000
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    depends_on: [ minio ]
     volumes:
       - ./data/raw:/app/data/raw
     networks:
@@ -32,6 +33,7 @@ services:
       MINIO_ENDPOINT: minio:9000
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    depends_on: [ minio, ingestor ]
     networks:
       - minio
   trainer:
@@ -44,6 +46,7 @@ services:
       MLFLOW_TRACKING_URI: ${MLFLOW_TRACKING_URI}
       MLFLOW_TRACKING_USERNAME: ${MLFLOW_TRACKING_USERNAME}
       MLFLOW_TRACKING_PASSWORD: ${MLFLOW_TRACKING_PASSWORD}
+    depends_on: [ minio , ingestor, processor]
     networks:
       - minio
   validator:
@@ -56,6 +59,19 @@ services:
       MLFLOW_TRACKING_URI: ${MLFLOW_TRACKING_URI}
       MLFLOW_TRACKING_USERNAME: ${MLFLOW_TRACKING_USERNAME}
       MLFLOW_TRACKING_PASSWORD: ${MLFLOW_TRACKING_PASSWORD}
+    depends_on: [ minio, ingestor, processor, trainer ]
+    networks:
+      - minio
+  server:
+    image: dakshsawhneyy/sentiment-analysis-server:latest
+    container_name: server
+    ports:
+      - "8000:8000"
+    environment:
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    depends_on: [ minio ]
     networks:
       - minio
     
