@@ -2,6 +2,10 @@ venv
 
 node_modules
 
+terraform.tfvars
+*.tfvars
+.terraform*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
