@@ -5,7 +5,7 @@ variable "region" {
 
 variable "project_name" {
   type    = string
-  default = "sentiment-Analysis-MLOps"
+  default = "Sentiment-Analysis-MLOps"
 }
 
 variable "vpc_cidr" {
