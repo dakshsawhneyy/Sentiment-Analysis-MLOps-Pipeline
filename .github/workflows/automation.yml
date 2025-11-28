@@ -93,8 +93,8 @@ jobs:
         working-directory: infrastructure/main_infra
         run: terraform apply -auto-approve -lock=false
         env:
-          minio_user: ${{ secrets.minio_user }}
-          minio_password: ${{ secrets.minio_password }}
-          mlflow_uri: ${{ secrets.mlflow_uri }}
-          mlflow_user: ${{ secrets.mlflow_user }}
-          mlflow_pass: ${{ secrets.mlflow_pass }}
+          TF_VAR_minio_user: ${{ secrets.TF_VAR_MINIO_USER }}
+          TF_VAR_minio_password: ${{ secrets.TF_VAR_MINIO_PASSWORD }}
+          TF_VAR_mlflow_uri: ${{ secrets.TF_VAR_MLFLOW_URI }}
+          TF_VAR_mlflow_user: ${{ secrets.TF_VAR_MLFLOW_USER }}
+          TF_VAR_mlflow_pass: ${{ secrets.TF_VAR_MLFLOW_PASS }}
