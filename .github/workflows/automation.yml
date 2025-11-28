@@ -91,7 +91,7 @@ jobs:
       #   run: terraform plan -out=tfplan
       - name: Terraform Apply
         working-directory: infrastructure/main_infra
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -lock=false
         env:
           minio_user: ${{ secrets.minio_user }}
           minio_password: ${{ secrets.minio_password }}
