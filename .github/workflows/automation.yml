@@ -86,9 +86,9 @@ jobs:
       - name: Terraform Init
         working-directory: infrastructure/main_infra
         run: terraform init
-      - name: Terraform Plan
-        working-directory: infrastructure/main_infra
-        run: terraform plan -out=tfplan
+      # - name: Terraform Plan
+      #   working-directory: infrastructure/main_infra
+      #   run: terraform plan -out=tfplan
       - name: Terraform Apply
         working-directory: infrastructure/main_infra
         run: terraform apply -auto-approve tfplan
