@@ -22,23 +22,19 @@ module "vpc" {
   tags = local.common_tags
 }
 
+
 # =============================================================================
-# EC2 CONFIGURATION
+# EC2 - Auto Scaling CONFIGURATION
 # =============================================================================
-module "ec2_instance" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
 
-  name = "${var.project_name}-ec2"
-
-  ami = data.aws_ami.ubuntu.id
-  instance_type = "t2.medium"
-  key_name      = "general-key-pair"
-  subnet_id     = module.vpc.public_subnets[0]
-
-  # Attach web security group to ssh into web_server
+# EC2 launch template. Gonna place this under autoscaling group
+resource "aws_launch_template" "my_launch_template" {
+  name_prefix = "mlops-pipeline-ec2-"     # generate a unique name everytime
+  image_id = data.aws_ami.ubuntu.id
+  instance_type = "t2.micro"
+  key_name      = "general-key-pair" 
   vpc_security_group_ids = [aws_security_group.my_sg.id]
 
-  # Converting into tpl file, so we can pass env while calling the file
   user_data = templatefile("${path.module}/user-data.sh.tpl", {
     minio_user = var.minio_user,
     minio_password = var.minio_password
@@ -48,4 +44,24 @@ module "ec2_instance" {
   })
 
   tags = local.common_tags
+}
+
+resource "aws_autoscaling_group" "my_asg" {
+  name = "mlops-pipeline-asg-"
+  min_size = 2
+  max_size = 4
+  desired_capacity    = 2
+  vpc_zone_identifier = module.vpc.public_subnets
+
+  launch_template {
+    id = aws_launch_template.my_launch_template.id
+    version = "$Latest"
+  }
+
+  # This links the ASG to the Load Balancer's Target Group -- required for instances health checks
+  target_group_arns = [aws_lb_target_group.my_tg.arn]
+
+  # This helps the ASG replace unhealthy instances
+  health_check_type = "ELB"   # Let load balancer check instance health
+  health_check_grace_period = 300
 }
