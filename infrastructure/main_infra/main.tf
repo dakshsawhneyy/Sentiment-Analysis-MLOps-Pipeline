@@ -35,13 +35,15 @@ resource "aws_launch_template" "my_launch_template" {
   key_name      = "general-key-pair" 
   vpc_security_group_ids = [aws_security_group.my_sg.id]
 
-  user_data = templatefile("${path.module}/user-data.sh.tpl", {
-    minio_user = var.minio_user,
-    minio_password = var.minio_password
-    mlflow_uri     = var.mlflow_uri
-    mlflow_user    = var.mlflow_user
-    mlflow_pass    = var.mlflow_pass
-  })
+  user_data = base64encode(
+    templatefile("${path.module}/user-data.sh", {
+      minio_user = var.minio_user,
+      minio_password = var.minio_password
+      mlflow_uri     = var.mlflow_uri
+      mlflow_user    = var.mlflow_user
+      mlflow_pass    = var.mlflow_pass
+    })
+  )
 
   tags = local.common_tags
 }
