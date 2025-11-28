@@ -63,3 +63,31 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/sentiment-analysis-server:${{ steps.vars.outputs.TAG }}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/sentiment-analysis-server:latest
       
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Terraform Init
+        working-directory: infrastructure/main_infra
+        run: terraform init
+      - name: Terraform Plan
+        working-directory: infrastructure/main_infra
+        run: terraform plan -out=tfplan
+      - name: Terraform Apply
+        working-directory: infrastructure/main_infra
+        run: terraform apply -auto-approve tfplan
+        env:
+          minio_user: ${{ secrets.minio_user }}
+          minio_password: ${{ secrets.minio_password }}
+          mlflow_uri: ${{ secrets.mlflow_uri }}
+          mlflow_user: ${{ secrets.mlflow_user }}
+          mlflow_pass: ${{ secrets.mlflow_pass }}
